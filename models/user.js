@@ -107,7 +107,7 @@ let validPassword = (password) => {
     return false; // Return error
   } else {
     // Regular Expression to test if password is valid format
-    const regExp = new RegExp(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{8,35}$/);
+    const regExp = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,35}$/);
     return regExp.test(password); // Return regular expression test result (true or false)
   }
 };
@@ -122,7 +122,7 @@ const passwordValidators = [
   // Second password validator
   {
     validator: validPassword,
-    message: 'Must have at least one uppercase, lowercase, special character, and number'
+    message: 'Must have at least one character and one number'
   }
 ];
 
