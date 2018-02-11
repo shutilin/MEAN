@@ -10,8 +10,12 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './services/auth.service';
+import { FanficsService } from './services/fanfics.service';
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { AuthGuard } from './guards/auth.guard';
+import { NotAuthGuard } from './guards/notAuth.guard';
+import { FanficsComponent } from './components/fanfics/fanfics.component';
 //import { FlashMessagesModule } from 'angular2-flash-messages';
 
 @NgModule({
@@ -22,7 +26,8 @@ import { ProfileComponent } from './components/profile/profile.component';
     DashboardComponent,
     RegisterComponent,
     LoginComponent,
-    ProfileComponent
+    ProfileComponent,
+    FanficsComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +36,7 @@ import { ProfileComponent } from './components/profile/profile.component';
     AppRoutingModule,
     ReactiveFormsModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, AuthGuard, NotAuthGuard, FanficsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
