@@ -17,6 +17,7 @@ export class FanficsComponent implements OnInit {
   form;
   processing = false;
   username;
+  fanficPosts;
 
   constructor(
   	private formBuilder: FormBuilder,
@@ -69,7 +70,8 @@ export class FanficsComponent implements OnInit {
 
   reloadFanfics() {
   	this.loadingFanfics = true;
-
+    this.getAllFanfics();
+ 
   	setTimeout(() => {
   	  this.loadingFanfics = false;	
   	}, 4000);
@@ -104,6 +106,7 @@ export class FanficsComponent implements OnInit {
         this.messageClass = 'alert alert-success'; // Return success class
         this.message = data.message; // Return success message
         // Clear form data after two seconds
+        this.getAllFanfics();
         setTimeout(() => {
           this.newFanfic = false; // Hide form
           this.processing = false; // Enable submit button
@@ -114,6 +117,12 @@ export class FanficsComponent implements OnInit {
       }
     });
   }
+
+  getAllFanfics() {
+    this.fanficsService.getAllFanfics().subscribe(data => {
+      this.fanficPosts = data.fanfics;
+    })
+  }
  
 
   ngOnInit() {
@@ -121,6 +130,7 @@ export class FanficsComponent implements OnInit {
       this.authService.getProfile().subscribe(profile => {
       this.username = profile.user.username; // Used when creating new blog posts and comments
     });
+      this.getAllFanfics();
   }
 
 }

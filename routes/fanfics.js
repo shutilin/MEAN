@@ -52,5 +52,19 @@ module.exports = (router) => {
     }
   });
 
+  router.get('/allFanfics', (req, res) => {
+    Fanfic.find({}, (err, fanfics) => {
+      if (err) {
+        res.json({ success: false, message: err });
+      } else {
+        if (!fanfics) {
+          res.json({ success: false, message: "No fanfics found"});
+        } else{
+          res.json({ success: true, fanfics: fanfics });
+        }
+      }
+    }).sort({ '_id' : -1 });
+  })
+
   return router;
 };

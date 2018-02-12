@@ -31,4 +31,9 @@ export class FanficsService {
     return this.http.post(this.domain + 'fanfics/newFanfic', fanfic, this.options).map(res => res.json());
   }
 
+  getAllFanfics() {
+    this.createAuthenticationHeaders();
+    return this.http.get(this.domain + 'fanfics/allFanfics', this.options).map(res => res.json());
+  }
+
 }
