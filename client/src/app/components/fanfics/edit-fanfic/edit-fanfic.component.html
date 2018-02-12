@@ -1,3 +1,25 @@
-<p>
-  edit-fanfic works!
-</p>
+<h1 class = "page-header">Edit fanfic</h1>
+
+<div class="row show-hide-message" *ngIf="message">
+	<div [ngClass]="messageClass">
+		{{ message }}
+	</div>
+</div>
+
+<form (submit)="updateFanficSubmit()" *ngIf="!loading">
+	<div class="form-group">
+		<label for="title">Title</label>
+		<input [disabled]="processing" type="text" name="title" placeholder="fanfic title" class="form-control" [(ngModel)]="fanfic.title" />
+	</div>
+
+	<div class="form-group">
+		<label for="body">Body</label>
+		<textarea [disabled]="processing" name="body" cols="80" rows="8" [(ngModel)]="fanfic.body" class="form-control" placeholder="*Fanfic Body"></textarea>
+	
+
+		<a [routerLink]="['/delete-fanfic/', fanfic._id]"><button [disabled]="processing" type="button" name="button" class="btn btn-danger">Delete</button></a>
+		<button type="button" name="button" class="btn btn-success" (click)="goBack()">Go Back</button>
+		<button type="submit" name="save" class="btn btn-info">Save Changes</button>
+	</div>
+
+</form>

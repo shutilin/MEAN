@@ -6,6 +6,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { FanficsComponent } from './components/fanfics/fanfics.component';
+import { EditFanficComponent } from './components/fanfics/edit-fanfic/edit-fanfic.component';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
 
@@ -38,6 +39,11 @@ const appRoutes: Routes = [
   {
     path: 'fanfics',
     component: FanficsComponent 
+  },
+  {
+    path: 'edit-fanfic/:id',
+    component: EditFanficComponent,
+    canActivate: [AuthGuard]
   },
   { path: '**', component: HomeComponent } 
 ];

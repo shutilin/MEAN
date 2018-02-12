@@ -66,5 +66,81 @@ module.exports = (router) => {
     }).sort({ '_id' : -1 });
   })
 
+  router.get('/singleFanfic/:id', (req, res) => {
+    if(!req.params.id) {
+      res.json({ success:false, message: "No fanfic ID"})
+    } else {
+      Fanfic.findOne({ _id: req.params.id }, (err, fanfic) => {
+         if (err) {
+           res.json({ success: false, message: "Not a valid ID" });
+         } else {
+          if (!fanfic) {
+            res.json({ success: false, message: "Fanfic not found"});
+          } else{
+             User.findOne({ _id: req.decoded.userId }, (err, user) => {
+              if (err) {
+                res.json({ success: false, message: err }); 
+              } else {
+                if (!user) {
+                  res.json({ success: false, message: 'Unable to authenticate user' });
+                } else {
+                  if (user.username !== fanfic.createdBy) {
+                    res.json({ success: false, message: 'You are not authorized to edit this fanfic.' });
+                  } else {
+                    res.json({ success: true, fanfic: fanfic }); 
+                  }
+                }
+              }
+            });
+          }
+        }
+      });
+    }  
+  });
+
+  router.put('/updateFanfic', (req, res) => {
+    if(!req.body._id) {
+      res.json({ success: false, message: 'No fanfic id provided'});
+    } else {
+      Fanfic.findOne({ _id: req.body._id }, (err, fanfic) => {
+        if (err) {
+          res.json({ success: false, message: 'Not a valid fanfic id' }); 
+        } else {         
+          if (!fanfic) {
+            res.json({ success: false, message: 'Fanfic id was not found.' }); 
+          } else {      
+            User.findOne({ _id: req.decoded.userId }, (err, user) => {
+              if (err) {
+                res.json({ success: false, message: err }); 
+              } else {
+                if (!user) {
+                  res.json({ success: false, message: 'Unable to authenticate user.' }); 
+                } else {               
+                  if (user.username !== fanfic.createdBy) {
+                    res.json({ success: false, message: 'You are not authorized to edit this fanfic post.' }); // Return error message
+                  } else {
+                    fanfic.title = req.body.title; 
+                    fanfic.body = req.body.body; 
+                    fanfic.save((err) => {
+                      if (err) {
+                        if (err.errors) {
+                          res.json({ success: false, message: 'Please ensure form is filled out properly' });
+                        } else {
+                          res.json({ success: false, message: err }); 
+                        }
+                      } else {
+                        res.json({ success: true, message: 'Fanfic Updated!' }); 
+                      }
+                    });
+                  }
+                }
+              }
+            });
+          }
+        }
+      });
+    }
+  })
+
   return router;
 };

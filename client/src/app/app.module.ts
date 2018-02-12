@@ -36,7 +36,8 @@ import { EditFanficComponent } from './components/fanfics/edit-fanfic/edit-fanfi
     FormsModule,
     HttpModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpModule
   ],
   providers: [AuthService, AuthGuard, NotAuthGuard, FanficsService],
   bootstrap: [AppComponent]
