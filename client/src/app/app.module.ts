@@ -17,6 +17,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
 import { FanficsComponent } from './components/fanfics/fanfics.component';
 import { EditFanficComponent } from './components/fanfics/edit-fanfic/edit-fanfic.component';
+import { DeleteFanficComponent } from './components/fanfics/delete-fanfic/delete-fanfic.component';
 //import { FlashMessagesModule } from 'angular2-flash-messages';
 
 @NgModule({
@@ -29,7 +30,8 @@ import { EditFanficComponent } from './components/fanfics/edit-fanfic/edit-fanfi
     LoginComponent,
     ProfileComponent,
     FanficsComponent,
-    EditFanficComponent
+    EditFanficComponent,
+    DeleteFanficComponent
   ],
   imports: [
     BrowserModule,

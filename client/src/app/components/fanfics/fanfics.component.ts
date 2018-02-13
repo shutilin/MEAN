@@ -123,7 +123,12 @@ export class FanficsComponent implements OnInit {
       this.fanficPosts = data.fanfics;
     })
   }
- 
+  
+  likeFanfic(id) {
+    this.fanficsService.likeFanfic(id).subscribe(data => {
+      this.getAllFanfics(); 
+    });
+  }
 
   ngOnInit() {
   	// Get profile username on page load

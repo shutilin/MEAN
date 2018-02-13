@@ -142,5 +142,101 @@ module.exports = (router) => {
     }
   })
 
+  router.delete('/deleteFanfic/:id', (req, res) => {
+    if (!req.params.id) {
+      res.json({ success: false, message: 'No id provided' });
+    } else {
+      Fanfic.findOne({ _id: req.params.id }, (err, fanfic) => {
+        if (err) {
+          res.json({ success: false, message: 'Invalid id'});
+        } else {
+          if (!fanfic) {
+            res.json({ success: false, message: 'Fanfic was not found' });
+          } else {
+             User.findOne({ _id: req.decoded.userId }, (err, user) => {
+              if (err) {
+                res.json({ success: false, message: err }); 
+              } else {
+                if (!user) {
+                  res.json({ success: false, message: 'Unable to authenticate user.' }); 
+                } else {
+                  if (user.username !== fanfic.createdBy) {
+                    res.json({ success: false, message: 'You are not authorized to delete this fanfic' }); 
+                    } else {
+                      fanfic.remove((err) => {
+                        if (err) {
+                          res.json({ success: false, message: err }); 
+                        } else {
+                          //console.log('ss');
+                          res.json({ success: true, message: 'Fanfic deleted!' }); 
+                        }   
+                      });
+                    }
+                  }
+                }
+            });
+          }
+        }
+      });
+    }
+  });
+
+  router.put('/likeFanfic', (req, res) => {
+    if(!req.body.id) {
+      res.json({ success: false, message: 'No id was provided '});
+    } else {
+      Fanfic.findOne({ _id: req.body.id }, (err, fanfic) => {
+        if (err) {
+          res.json({success:false, message: 'Invalid fanfic id' });
+        } else {
+          if (!fanfic) {
+            res.json({ success:false, message: 'That fanfic was not found '});
+          } else {
+            User.findOne({ _id: req.decoded.userId }, (err, user) => {
+              if (err) {
+                res.json({ success: false, message: "Smth wrong" });
+              } else {
+                if (!user) {
+                  res.json({ success: false, message: 'Could not auth user'});
+                } else {
+                  if (user.username === fanfic.createdBy) {
+                    res.json({ success: false, messagse: 'Cannot like your own post.' });
+                  } else {
+                    if (fanfic.likedBy.includes(user.username)) {
+                      fanfic.likes--;
+                      //fanfic.likedBy.push(user.username);
+                      const arrayIndex = fanfic.likedBy.indexOf(user.username); // Check where username is inside of the array
+                      fanfic.likedBy.splice(arrayIndex, 1);
+
+                      fanfic.save((err) => {
+                          if (err) {
+                            res.json({ success: false, message: 'Something went wrong.' }); // Return error message
+                          } else {
+                            res.json({ success: true, message: 'Fanfic disliked!' }); // Return success message
+                          }
+                        });
+                    } else {
+                      fanfic.likes++;
+                      fanfic.likedBy.push(user.username);
+
+                      fanfic.save((err) => {
+                          if (err) {
+                            res.json({ success: false, message: 'Something went wrong.' }); // Return error message
+                          } else {
+                            res.json({ success: true, message: 'Fanfic liked!' }); // Return success message
+                          }
+                        });
+                    }
+                  }
+                }
+             }
+            })
+          }
+        }
+      })
+    }
+  })
+
+
   return router;
 };

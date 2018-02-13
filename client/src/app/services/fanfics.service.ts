@@ -46,4 +46,14 @@ export class FanficsService {
     return this.http.put(this.domain + 'fanfics/updateFanfic/', fanfic, this.options).map(res => res.json());
   }
 
+  deleteFanfic(id) {
+    this.createAuthenticationHeaders(); // Create headers
+    return this.http.delete(this.domain + 'fanfics/deleteFanfic/' + id, this.options).map(res => res.json());
+  }
+
+  likeFanfic(id) {
+    const fanficData = { id: id };
+    return this.http.put(this.domain + 'fanfics/likeFanfic/', fanficData, this.options).map(res => res.json());
+  }
+
 }
