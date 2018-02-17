@@ -18,6 +18,7 @@ import { NotAuthGuard } from './guards/notAuth.guard';
 import { FanficsComponent } from './components/fanfics/fanfics.component';
 import { EditFanficComponent } from './components/fanfics/edit-fanfic/edit-fanfic.component';
 import { DeleteFanficComponent } from './components/fanfics/delete-fanfic/delete-fanfic.component';
+import { ViewFanficComponent } from './components/fanfics/view-fanfic/view-fanfic.component';
 //import { FlashMessagesModule } from 'angular2-flash-messages';
 
 @NgModule({
@@ -31,7 +32,8 @@ import { DeleteFanficComponent } from './components/fanfics/delete-fanfic/delete
     ProfileComponent,
     FanficsComponent,
     EditFanficComponent,
-    DeleteFanficComponent
+    DeleteFanficComponent,
+    ViewFanficComponent
   ],
   imports: [
     BrowserModule,

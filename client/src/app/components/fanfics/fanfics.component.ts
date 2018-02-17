@@ -41,7 +41,7 @@ export class FanficsComponent implements OnInit {
       ])],
       body: ['', Validators.compose([
         Validators.required,
-        Validators.maxLength(500),
+        Validators.maxLength(10000),
         Validators.minLength(5)
       ])]
     })
@@ -82,7 +82,7 @@ export class FanficsComponent implements OnInit {
     if (regExp.test(controls.value)) {
       return null; // Return valid
     } else {
-      return { 'alphaNumericValidation': true } // Return error in validation
+      return { 'alphaNumericValidation': true }; // Return error in validation
     }
   }
 

@@ -25,47 +25,47 @@ export class LoginComponent implements OnInit {
 
   createForm() {
     this.form = this.formBuilder.group({
-      username: ['', Validators.required], // Username field
-      password: ['', Validators.required] // Password field
+      username: ['', Validators.required], 
+      password: ['', Validators.required] 
     });
   }
 
    disableForm() {
-    this.form.controls['username'].disable(); // Disable username field
-    this.form.controls['password'].disable(); // Disable password field
+    this.form.controls['username'].disable(); 
+    this.form.controls['password'].disable(); 
   }
 
-  // Function to enable form
+  
   enableForm() {
-    this.form.controls['username'].enable(); // Enable username field
-    this.form.controls['password'].enable(); // Enable password field
+    this.form.controls['username'].enable(); 
+    this.form.controls['password'].enable(); 
   }
 
-  // Functiont to submit form and login user
+  
   onLoginSubmit() {
-    this.processing = true; // Used to submit button while is being processed
-    this.disableForm(); // Disable form while being process
-    // Create user object from user's input
+    this.processing = true; 
+    this.disableForm(); 
+    
     const user = {
-      username: this.form.get('username').value, // Username input field
-      password: this.form.get('password').value // Password input field
+      username: this.form.get('username').value, 
+      password: this.form.get('password').value 
     }
 
     this.authService.login(user).subscribe(data => {
-      // Check if response was a success or error
+      
       if (!data.success) {
-        this.messageClass = 'alert alert-danger'; // Set bootstrap error class
-        this.message = data.message; // Set error message
-        this.processing = false; // Enable submit button
-        this.enableForm(); // Enable form for editting
+        this.messageClass = 'alert alert-danger'; 
+        this.message = data.message; 
+        this.processing = false; 
+        this.enableForm(); 
       } else {
-        this.messageClass = 'alert alert-success'; // Set bootstrap success class
-        this.message = data.message; // Set success message
-        // Function to store user's token in client local storage
+        this.messageClass = 'alert alert-success'; 
+        this.message = data.message; 
+        
         this.authService.storeUserData(data.token, data.user);
-        // After 2 seconds, redirect to dashboard page
+        
         setTimeout(() => {
-          this.router.navigate(['/dashboard']); // Navigate to dashboard view
+          this.router.navigate(['/fanfics']); 
         }, 2000);
       }
     });

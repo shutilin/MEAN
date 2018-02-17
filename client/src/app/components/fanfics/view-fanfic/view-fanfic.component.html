@@ -1,0 +1,26 @@
+<h1 class="page-header">View Fanfic</h1>
+
+<div class="row show-hide-message" *ngIf="message">
+  <div [ngClass]="messageClass">
+    {{ message }}
+  </div>
+</div>
+
+<div *ngIf="foundFanfic">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">{{ fanfic.title }}</h3>
+    </div>
+
+    <div class="panel-body">
+      {{ fanfic.body }}
+    </div>
+
+    <div class="panel-footer">
+      <strong>Posted by: </strong> {{ fanfic.createdBy }}
+      <br />
+      <strong>Date: </strong> {{ fanfic.createdAt | date:'MMM dd, yyyy' }}
+    </div>
+  </div>
+
+</div>

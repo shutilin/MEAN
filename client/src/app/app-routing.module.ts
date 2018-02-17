@@ -8,6 +8,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { FanficsComponent } from './components/fanfics/fanfics.component';
 import { EditFanficComponent } from './components/fanfics/edit-fanfic/edit-fanfic.component';
 import { DeleteFanficComponent } from './components/fanfics/delete-fanfic/delete-fanfic.component';
+import { ViewFanficComponent } from './components/fanfics/view-fanfic/view-fanfic.component';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
 
@@ -49,6 +50,11 @@ const appRoutes: Routes = [
   {
     path: 'delete-fanfic/:id',
     component: DeleteFanficComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'view-fanfic/:id',
+    component: ViewFanficComponent,
     canActivate: [AuthGuard]
   },
   { path: '**', component: HomeComponent } 
