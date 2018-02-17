@@ -56,4 +56,13 @@ export class FanficsService {
     return this.http.put(this.domain + 'fanfics/likeFanfic/', fanficData, this.options).map(res => res.json());
   }
 
+  postComment(id, comment) {
+    this.createAuthenticationHeaders();
+    const fanficData = {
+      id: id,
+      comment: comment;
+    }
+    return this.http.post(this.domain+ 'fanfics/comment', fanficData, this.options).map(res => res.json);
+  }
+
 }
