@@ -12,45 +12,55 @@ module.exports = (router) => {
     if (!req.body.title) {
       res.json({ success: false, message: 'Fanfic title is required.' }); // Return error message
     } else {
-      if (!req.body.body) {
-        res.json({ success: false, message: 'Fanfic body is required.' }); // Return error message
+      if(!req.body.description){
+        res.json({ success: false, message: 'Fanfic description is required.' }); 
       } else {
-        if (!req.body.createdBy) {
-          res.json({ success: false, message: 'Fanfic creator is required.' }); // Return error
+        if (!req.body.body) {
+          res.json({ success: false, message: 'Fanfic body is required.' }); // Return error message
         } else {
-          const fanfic = new Fanfic({
-            title: req.body.title, // Title field
-            body: req.body.body, // Body field
-            createdBy: req.body.createdBy // CreatedBy field
-          });
-          // Save Fanfic into database
-          fanfic.save((err) => {
-            // Check if error
-            if (err) {
-              // Check if error is a validation error
-              if (err.errors) {
-                // Check if validation error is in the title field
-                if (err.errors.title) {
-                  res.json({ success: false, message: err.errors.title.message }); // Return error message
-                } else {
-                  // Check if validation error is in the body field
-                  if (err.errors.body) {
-                    res.json({ success: false, message: err.errors.body.message }); // Return error message
+          if (!req.body.createdBy) {
+            res.json({ success: false, message: 'Fanfic creator is required.' }); // Return error
+          } else {
+            const fanfic = new Fanfic({
+              title: req.body.title,
+              description: req.body.description, // Title field
+              body: req.body.body, // Body field
+              createdBy: req.body.createdBy,
+              tags: req.body.tags // CreatedBy field
+            });
+            // Save Fanfic into database
+            fanfic.save((err) => {
+              // Check if error
+              if (err) {
+                // Check if error is a validation error
+                if (err.errors) {
+                  // Check if validation error is in the title field
+                  if (err.errors.title) {
+                    res.json({ success: false, message: err.errors.title.message }); // Return error message
                   } else {
-                    res.json({ success: false, message: err }); // Return general error message
+                    if (err.errors.description) {
+                      res.json({ success: false, message: err.errors.description.message });
+                    } else {
+                    // Check if validation error is in the body field
+                      if (err.errors.body) {
+                        res.json({ success: false, message: err.errors.body.message }); // Return error message
+                      } else {
+                        res.json({ success: false, message: err }); // Return general error message
+                      }
+                    }
                   }
+                } else {
+                  res.json({ success: false, message: err }); // Return general error message
                 }
               } else {
-                res.json({ success: false, message: err }); // Return general error message
+                res.json({ success: true, message: 'Fanfic saved!' }); // Return success message
               }
-            } else {
-              res.json({ success: true, message: 'Fanfic saved!' }); // Return success message
-            }
-          });
+            });
+          }
         }
-      }
     }
-  });
+  }
+});
 
   router.get('/allFanfics', (req, res) => {
     Fanfic.find({}, (err, fanfics) => {
@@ -120,7 +130,8 @@ module.exports = (router) => {
                     res.json({ success: false, message: 'You are not authorized to edit this fanfic post.' }); // Return error message
                   } else {
                     fanfic.title = req.body.title; 
-                    fanfic.body = req.body.body; 
+                    fanfic.body = req.body.body;
+                    fanfic.description = req.body.description; 
                     fanfic.save((err) => {
                       if (err) {
                         if (err.errors) {

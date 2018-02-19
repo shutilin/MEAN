@@ -13,13 +13,21 @@
 	</div>
 
 	<div class="form-group">
-		<label for="body">Body</label>
-		<textarea [disabled]="processing" name="body" cols="80" rows="8" [(ngModel)]="fanfic.body" class="form-control" placeholder="*Fanfic Body"></textarea>
-	
-
-		<a [routerLink]="['/delete-fanfic/', fanfic._id]"><button [disabled]="processing" type="button" name="button" class="btn btn-danger">Delete</button></a>
-		<button type="button" name="button" class="btn btn-success" (click)="goBack()">Go Back</button>
-		<button type="submit" name="save" class="btn btn-info">Save Changes</button>
+		<label for="description">Description</label>
+		<input [disabled]="processing" type="text" name="description" placeholder="fanfic description" class="form-control" [(ngModel)]="fanfic.description" />
 	</div>
 
+	<div class="form-group">
+		<label for="body">Body</label>
+		<textarea [disabled]="processing" name="body" cols="80" rows="8" [(ngModel)]="fanfic.body" class="form-control" placeholder="*Fanfic Body"></textarea>
+	</div>
+
+	<div class="form-froup">
+		<label for="tags">Tags</label>
+		<tag-input [(ngModel)]='items' name='tags'></tag-input>
+	</div>
+	<br>
+	<a [routerLink]="['/delete-fanfic/', fanfic._id]"><button [disabled]="processing" type="button" name="button" class="btn btn-danger">Delete</button></a>
+		<button type="button" name="button" class="btn btn-success" (click)="goBack()">Go Back</button>
+		<button type="submit" name="save" class="btn btn-info">Save Changes</button>
 </form>

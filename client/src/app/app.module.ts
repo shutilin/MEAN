@@ -19,7 +19,8 @@ import { FanficsComponent } from './components/fanfics/fanfics.component';
 import { EditFanficComponent } from './components/fanfics/edit-fanfic/edit-fanfic.component';
 import { DeleteFanficComponent } from './components/fanfics/delete-fanfic/delete-fanfic.component';
 import { ViewFanficComponent } from './components/fanfics/view-fanfic/view-fanfic.component';
-//import { FlashMessagesModule } from 'angular2-flash-messages';
+import { TagInputModule } from 'ngx-chips';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 @NgModule({
   declarations: [
@@ -41,7 +42,9 @@ import { ViewFanficComponent } from './components/fanfics/view-fanfic/view-fanfi
     HttpModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpModule
+    HttpModule,
+    TagInputModule,
+    BrowserAnimationsModule
   ],
   providers: [AuthService, AuthGuard, NotAuthGuard, FanficsService],
   bootstrap: [AppComponent]

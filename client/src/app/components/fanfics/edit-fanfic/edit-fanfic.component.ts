@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FanficsService } from '../../../services/fanfics.service';
+import { TagInputModule } from 'ngx-chips';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 @Component({
   selector: 'app-edit-fanfic',
@@ -16,6 +18,8 @@ export class EditFanficComponent implements OnInit {
   processing = false;
   currentUrl;
   loading = true;
+  values: string[];
+  items = [];
 
   constructor(
   	private location: Location,

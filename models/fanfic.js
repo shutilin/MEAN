@@ -42,6 +42,27 @@ const titleValidators = [
   }
 ];
 
+let descriptionLengthChecker = (description) => {
+  // Check if body exists
+  if (!description) {
+    return false; // Return error
+  } else {
+    // Check length of body
+    if (description.length < 5 || description.length > 500) {
+      return false; // Return error if does not meet length requirement
+    } else {
+      return true; // Return as valid body
+    }
+  }
+};
+
+const descriptionValidators = [
+  {
+    validator: descriptionLengthChecker,
+    message: 'Description must be more than 5 characters but no more than 500.'
+  }
+];
+
 // Validate Function to check body length
 let bodyLengthChecker = (body) => {
   // Check if body exists
@@ -62,7 +83,7 @@ const bodyValidators = [
   // First Body validator
   {
     validator: bodyLengthChecker,
-    message: 'Body must be more than 5 characters but no more than 3000.'
+    message: 'Body must be more than 5 characters but no more than 10000.'
   }
 ];
 
@@ -93,17 +114,17 @@ const commentValidators = [
 
 const fanficSchema = new Schema({
   title: { type: String, required: true, validate: titleValidators },
+  description: {type: String, required: true, validate: descriptionValidators },
   body: { type: String, required: true, validate: bodyValidators },
   createdBy: { type: String },
   createdAt: { type: Date, default: Date.now() },
   likes: { type: Number, default: 0 },
   likedBy: { type: Array },
-  dislikes: { type: Number, default: 0 },
-  dislikedBy: { type: Array },
   comments: [{
     comment: { type: String, validate: commentValidators },
     commentator: { type: String }
-  }]
+  }],
+  tags: {type: Array}
 });
 
 // Export Module/Schema

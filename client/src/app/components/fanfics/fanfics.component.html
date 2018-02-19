@@ -26,6 +26,17 @@
       </ul>
     </div>
   </div>
+  <!--Description Input-->
+  <div class="form-group">
+    <label for="description">Description</label>
+    <div [ngClass]="{'has-success': form.controls.description.valid, 'has-error': form.controls.description.dirty && form.controls.description.errors}">
+      <input type="text" name="description" class="form-control" placeholder="*fanfic Description" autocomplete="off" formControlName="description" />
+      <ul class="help-block">
+        <li *ngIf="form.controls.description.dirty && form.controls.description.errors?.required">This field is required.</li>
+        <li *ngIf="(form.controls.description.dirty && form.controls.description.errors?.minlength) || (form.controls.description.dirty && form.controls.description.errors?.maxlength)">Max length: 500, Min length: 20</li>
+      </ul>
+    </div>
+  </div>
 <!-- Body Input -->
   <div class="form-group">
     <label for="body">Body</label>
@@ -37,6 +48,17 @@
       </ul>
     </div>
   </div>
+
+  <div class="form-froup">
+    <label for="tags">Tags</label>
+    <tag-input name="tags" formControlName="body" [(ngModel)]='items' theme='minimal'>
+      <tag-input-dropdown [showDropdownIfEmpty]="true"
+                          [autocompleteItems]="['iTem1', 'item2', 'item3']">
+      </tag-input-dropdown>
+    </tag-input>
+  </div>
+  <br>
+ 
 
   <button [disabled]="processing" type="button" name="button" (click)="goBack()" class="btn btn-warning">Go Back</button>
   <button [disabled]="processing || !form.valid" type="submit" name="button" class="btn btn-success">Submit</button>
@@ -53,7 +75,7 @@
 		</div>
 
 		<div class="panel-body">
-			{{ fanfic.body }}
+			{{ fanfic.description }}
 		</div>
 
 		<div class="panel-footer">

@@ -60,7 +60,7 @@ export class FanficsService {
     this.createAuthenticationHeaders();
     const fanficData = {
       id: id,
-      comment: comment;
+      comment: comment
     }
     return this.http.post(this.domain+ 'fanfics/comment', fanficData, this.options).map(res => res.json);
   }

@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { FanficsService } from '../../services/fanfics.service';
+import { TagInputModule } from 'ngx-chips';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+
 
 @Component({
   selector: 'app-fanfics',
@@ -21,6 +24,7 @@ export class FanficsComponent implements OnInit {
   fanficPosts;
   newComment = [];
   enabledComments = [];
+  items = [];
 
   constructor(
   	private formBuilder: FormBuilder,
@@ -39,6 +43,12 @@ export class FanficsComponent implements OnInit {
         Validators.minLength(5),
         this.alphaNumericValidation
       ])],
+      description: ['', Validators.compose([
+        Validators.required,
+        Validators.maxLength(500),
+        Validators.minLength(5)
+      ])],
+      tags: [''],
       body: ['', Validators.compose([
         Validators.required,
         Validators.maxLength(10000),
@@ -48,13 +58,15 @@ export class FanficsComponent implements OnInit {
   }
 
   enableFormNewFanficForm() {
-    this.form.get('title').enable(); // Enable title field
+    this.form.get('title').enable(); 
+    this.form.get('description').enable();// Enable title field
     this.form.get('body').enable(); // Enable body field
   }
 
   // Disable new blog form
   disableFormNewFanficForm() {
     this.form.get('title').disable(); // Disable title field
+    this.form.get('description').disable();
     this.form.get('body').disable(); // Disable body field
   }
 
@@ -123,8 +135,10 @@ export class FanficsComponent implements OnInit {
 
     const fanfic = {
       title: this.form.get('title').value, 
+      description: this.form.get('description').value,
       body: this.form.get('body').value, 
-      createdBy: this.username 
+      createdBy: this.username,
+      tags: this.items 
     }
 
     this.fanficsService.newFanfic(fanfic).subscribe(data => {
