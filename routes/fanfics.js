@@ -26,7 +26,8 @@ module.exports = (router) => {
               description: req.body.description, // Title field
               body: req.body.body, // Body field
               createdBy: req.body.createdBy,
-              tags: req.body.tags // CreatedBy field
+              tags: req.body.tags,
+              genre: req.body.genre // CreatedBy field
             });
             // Save Fanfic into database
             fanfic.save((err) => {
@@ -75,6 +76,7 @@ module.exports = (router) => {
       }
     }).sort({ '_id' : -1 });
   })
+
 
   router.get('/singleFanfic/:id', (req, res) => {
     if(!req.params.id) {
@@ -289,8 +291,6 @@ module.exports = (router) => {
       }
     }
   });
-
-
 
 
   return router;

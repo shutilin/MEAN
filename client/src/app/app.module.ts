@@ -21,6 +21,8 @@ import { DeleteFanficComponent } from './components/fanfics/delete-fanfic/delete
 import { ViewFanficComponent } from './components/fanfics/view-fanfic/view-fanfic.component';
 import { TagInputModule } from 'ngx-chips';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { CloudinaryModule } from '@cloudinary/angular-5.x';
+import * as  Cloudinary from 'cloudinary-core';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
     ReactiveFormsModule,
     HttpModule,
     TagInputModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    CloudinaryModule.forRoot(Cloudinary, { cloud_name: 'itrcloud'})
   ],
   providers: [AuthService, AuthGuard, NotAuthGuard, FanficsService],
   bootstrap: [AppComponent]

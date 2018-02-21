@@ -6,15 +6,15 @@
   </div>
 </div> 
 
-<button type="button" name="button" class="btn btn-warning" *ngIf="!newFanfic" (click)="newFanficForm()">New Fanfic</button>
+<!-- <button type="button" name="button" class="btn btn-warning" *ngIf="!newFanfic" (click)="newFanficForm()">New Fanfic</button>
 <button [disabled]="loadingFanfics" type="button" name="button" class="btn btn-default" *ngIf="!newFanfic" (click)="reloadFanfics()">Reload</button>
 
 <br/>
 <br/>
 
-<!-- New Fanfic Form -->
+New Fanfic Form
 <form [formGroup]="form" name="fanficForm" (submit)="onFanficSubmit()" *ngIf="newFanfic">
-  <!-- Title Input -->
+  Title Input
   <div class="form-group">
     <label for="title">Title</label>
     <div [ngClass]="{'has-success': form.controls.title.valid, 'has-error': form.controls.title.dirty && form.controls.title.errors}">
@@ -26,7 +26,7 @@
       </ul>
     </div>
   </div>
-  <!--Description Input-->
+  Description Input
   <div class="form-group">
     <label for="description">Description</label>
     <div [ngClass]="{'has-success': form.controls.description.valid, 'has-error': form.controls.description.dirty && form.controls.description.errors}">
@@ -37,7 +37,7 @@
       </ul>
     </div>
   </div>
-<!-- Body Input -->
+Body Input
   <div class="form-group">
     <label for="body">Body</label>
     <div [ngClass]="{'has-success': form.controls.body.valid, 'has-error': form.controls.body.dirty && form.controls.body.errors}">
@@ -64,7 +64,7 @@
   <button [disabled]="processing || !form.valid" type="submit" name="button" class="btn btn-success">Submit</button>
 
 </form>
-
+ -->
 
 
 <div *ngIf="!newFanfic">
@@ -91,7 +91,7 @@
 			<!-- Likes Dropdown  -->
 			<div class="dropdown">
 				<!-- Like Button -->
-				<button type="button" name="button" class="btn btn-sm btn-success" *ngIf="username !== fanfic.createdBy" (click)="likeFanfic(fanfic._id)"><span class="glyphicon glyphicon-thumbs-up">&nbsp;</span>{{ fanfic.likes }}</button>
+				<button type="button" name="button" class="btn btn-sm btn-success" *ngIf="(username !== fanfic.createdBy) && (isAuthorized())" (click)="likeFanfic(fanfic._id)"><span class="glyphicon glyphicon-thumbs-up">&nbsp;</span>{{ fanfic.likes }}</button>
 						<!-- Dropdown Menu Items -->
 		        <!-- <div class="dropdown-content">
 		          <a href="#">gugui3z24</a>
@@ -101,7 +101,7 @@
 		  	</div> 
 		</div>	
 		 <!-- Post Comment Box: Start -->
-    <ul class="list-group">
+    <ul class="list-group" *ngIf="isAuthorized()">
       <li class="list-group-item">
         <!-- Post Comment Button -->
         <button type="button" name="button" class="btn btn-sm btn-danger" (click)="draftComment(fanfic._id)" [disabled]="newComment.indexOf(fanfic._id) > -1">Post Comment</button>

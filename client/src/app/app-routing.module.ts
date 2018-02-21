@@ -16,7 +16,7 @@ import { NotAuthGuard } from './guards/notAuth.guard';
 const appRoutes: Routes = [
   {
     path: '',
-    component: HomeComponent // The Default Route
+    component: FanficsComponent// The Default Route
   },
   {
     path:'dashboard',

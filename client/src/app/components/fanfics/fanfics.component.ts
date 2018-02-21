@@ -88,6 +88,10 @@ export class FanficsComponent implements OnInit {
     this.commentForm.get('comment').disable(); // Disable comment field
   }
 
+  isAuthorized() {
+    return this.authService.loggedIn();
+  }
+
   alphaNumericValidation(controls) {
     const regExp = new RegExp(/^[a-zA-Z0-9 ]+$/); // Regular expression to perform test
     // Check if test returns false or true
@@ -203,10 +207,11 @@ export class FanficsComponent implements OnInit {
   }
 
   ngOnInit() {
-  	// Get profile username on page load
-      this.authService.getProfile().subscribe(profile => {
-      this.username = profile.user.username; // Used when creating new blog posts and comments
-    });
+  	if (this.isAuthorized()){
+        this.authService.getProfile().subscribe(profile => {
+        this.username = profile.user.username; // Used when creating new blog posts and comments
+      });
+    }
       this.getAllFanfics();
   }
 

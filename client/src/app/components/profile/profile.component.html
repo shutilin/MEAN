@@ -4,3 +4,80 @@
 	<li class="list-group-item">Username: {{ username }}</li>
 	<li class="list-group-item">Email: {{ email }}</li>
 </ul>
+
+<div class="row show-hide-message" *ngIf="message && newFanfic">
+  <div [ngClass]="messageClass">
+    {{ message }}
+  </div>
+</div> 
+
+<button type="button" name="button" class="btn btn-warning" *ngIf="!newFanfic" (click)="newFanficForm()">New Fanfic</button>
+<button [disabled]="loadingFanfics" type="button" name="button" class="btn btn-default" *ngIf="!newFanfic" (click)="reloadFanfics()">Reload</button>
+
+<br/>
+<br/>
+
+<!-- New Fanfic Form -->
+<form [formGroup]="form" name="fanficForm" (submit)="onFanficSubmit()" *ngIf="newFanfic">
+  <!-- Title Input -->
+  <div class="form-group">
+    <label for="title">Title</label>
+    <div [ngClass]="{'has-success': form.controls.title.valid, 'has-error': form.controls.title.dirty && form.controls.title.errors}">
+      <input type="text" name="title" class="form-control" placeholder="*fanfic Title" autocomplete="off" formControlName="title" />
+      <ul class="help-block">
+        <li *ngIf="form.controls.title.dirty && form.controls.title.errors?.required">This field is required.</li>
+        <li *ngIf="(form.controls.title.dirty && form.controls.title.errors?.minlength) || (form.controls.title.dirty && form.controls.title.errors?.maxlength)">Max length: 50, Min length: 5</li>
+        <li *ngIf="form.controls.title.dirty && form.controls.title.errors?.alphaNumericValidation">Must be a letter or number</li>
+      </ul>
+    </div>
+  </div>
+  <!--Description Input-->
+  <div class="form-group">
+    <label for="description">Description</label>
+    <div [ngClass]="{'has-success': form.controls.description.valid, 'has-error': form.controls.description.dirty && form.controls.description.errors}">
+      <input type="text" name="description" class="form-control" placeholder="*fanfic Description" autocomplete="off" formControlName="description" />
+      <ul class="help-block">
+        <li *ngIf="form.controls.description.dirty && form.controls.description.errors?.required">This field is required.</li>
+        <li *ngIf="(form.controls.description.dirty && form.controls.description.errors?.minlength) || (form.controls.description.dirty && form.controls.description.errors?.maxlength)">Max length: 500, Min length: 20</li>
+      </ul>
+    </div>
+  </div>
+  <!-- Body Input -->
+  <div class="form-group">
+    <label for="body">Body</label>
+    <div [ngClass]="{'has-success': form.controls.body.valid, 'has-error': form.controls.body.dirty && form.controls.body.errors}">
+      <textarea name="body" rows="8" cols="80" placeholder="*Body" class="form-control" formControlName="body"></textarea>
+      <ul class="help-block">
+        <li *ngIf="form.controls.body.dirty && form.controls.body.errors?.required">This field is required.</li>
+        <li *ngIf="(form.controls.body.dirty && form.controls.body.errors?.minlength) || (form.controls.body.dirty && form.controls.body.errors?.maxlength)">Max length: 10000, Min length: 5</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="genres">Select genre:</label>
+    <select class="form-control" formControlName="genre" [(ngModel)]='genre'>
+      <option>Comedy</option>
+      <option>Drama</option>
+      <option>Horror fiction</option>
+      <option>Literary realism</option>
+    </select>
+  </div>
+
+  <br>
+
+  <div class="form-froup">
+    <label for="tags">Tags</label>
+    <tag-input name="tags" formControlName="tags" [(ngModel)]='items' theme='minimal'>
+      <tag-input-dropdown [showDropdownIfEmpty]="true"
+      [autocompleteItems]="['iTem1', 'item2', 'item3']">
+    </tag-input-dropdown>
+  </tag-input>
+</div>
+<br>
+
+
+<button [disabled]="processing" type="button" name="button" (click)="goBack()" class="btn btn-warning">Go Back</button>
+<button [disabled]="processing || !form.valid" type="submit" name="button" class="btn btn-success">Submit</button>
+
+</form>
