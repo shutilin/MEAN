@@ -3,12 +3,31 @@ const Fanfic = require('../models/fanfic'); // Import Fanfic Model Schema
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
 const config = require('../config/database'); // Import database configuration
 
+function checkToken(req, res, next){
+      const token = req.headers['authorization']; // Create token found in headers
+      // Check if token was found in headers
+      if (!token) {
+        res.json({ success: false, message: 'No token provided' }); // Return error
+      } else {
+        // Verify the token is valid
+        jwt.verify(token, config.secret, (err, decoded) => {
+          // Check if error is expired or invalid
+          if (err) {
+            res.json({ success: false, message: 'Token invalid: ' + err }); // Return error for token validation
+          } else {
+          req.decoded = decoded; // Create global variable to use in any request beyond
+            next(); // Exit middleware
+          }
+        });
+      }
+    }
+
 module.exports = (router) => {
 
   /* ===============================================================
      CREATE NEW FANFIC
   =============================================================== */
-  router.post('/newFanfic', (req, res) => {
+  router.post('/newFanfic', checkToken, (req, res) => {
     if (!req.body.title) {
       res.json({ success: false, message: 'Fanfic title is required.' }); // Return error message
     } else {
@@ -78,7 +97,7 @@ module.exports = (router) => {
   })
 
 
-  router.get('/singleFanfic/:id', (req, res) => {
+/*  router.get('/singleFanfic/:id', (req, res) => {
     if(!req.params.id) {
       res.json({ success:false, message: "No fanfic ID"})
     } else {
@@ -96,21 +115,35 @@ module.exports = (router) => {
                 if (!user) {
                   res.json({ success: false, message: 'Unable to authenticate user' });
                 } else {
-                  if (user.username !== fanfic.createdBy) {
-                    res.json({ success: false, message: 'You are not authorized to edit this fanfic.' });
-                  } else {
                     res.json({ success: true, fanfic: fanfic }); 
                   }
                 }
-              }
             });
           }
         }
       });
     }  
-  });
+  });*/
 
-  router.put('/updateFanfic', (req, res) => {
+  router.get('/singleFanfic/:id', (req, res) => {
+    if(!req.params.id) {
+      res.json({ success:false, message: "No fanfic ID"})
+    } else {
+      Fanfic.findOne({ _id: req.params.id }, (err, fanfic) => {
+       if (err) {
+         res.json({ success: false, message: "Not a valid ID" });
+       } else {
+          if (!fanfic) {
+            res.json({ success: false, message: "Fanfic not found"});
+            } else {
+              res.json({ success: true, fanfic: fanfic }); 
+            }
+          }
+        })
+      }
+    });
+
+  router.put('/updateFanfic', checkToken, (req, res) => {
     if(!req.body._id) {
       res.json({ success: false, message: 'No fanfic id provided'});
     } else {
@@ -155,7 +188,7 @@ module.exports = (router) => {
     }
   })
 
-  router.delete('/deleteFanfic/:id', (req, res) => {
+  router.delete('/deleteFanfic/:id', checkToken, (req, res) => {
     if (!req.params.id) {
       res.json({ success: false, message: 'No id provided' });
     } else {
@@ -194,7 +227,7 @@ module.exports = (router) => {
     }
   });
 
-  router.put('/likeFanfic', (req, res) => {
+  router.put('/likeFanfic', checkToken, (req, res) => {
     if(!req.body.id) {
       res.json({ success: false, message: 'No id was provided '});
     } else {
@@ -250,7 +283,7 @@ module.exports = (router) => {
     }
   });
 
-  router.post('/comment', (req, res) => {
+  router.post('/comment', checkToken, (req, res) => {
     if (!req.body.comment) {
       res.json({ success: false, message: 'No comment provided' }); 
     } else {

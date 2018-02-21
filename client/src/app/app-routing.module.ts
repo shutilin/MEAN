@@ -36,7 +36,7 @@ const appRoutes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'fanfics',
@@ -55,7 +55,6 @@ const appRoutes: Routes = [
   {
     path: 'view-fanfic/:id',
     component: ViewFanficComponent,
-    canActivate: [AuthGuard]
   },
   { path: '**', component: HomeComponent } 
 ];

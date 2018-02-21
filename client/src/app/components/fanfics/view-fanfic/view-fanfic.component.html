@@ -20,6 +20,39 @@
       <strong>Posted by: </strong> {{ fanfic.createdBy }}
       <br />
       <strong>Date: </strong> {{ fanfic.createdAt | date:'MMM dd, yyyy' }}
+      <br />
+      <strong>Genre: </strong> {{ fanfic.genre }}
+      <br />
+      <br />
+
+      <!-- Form: Comment Form Start -->
+      <form [formGroup]="commentForm" *ngIf="isAuthorized()">
+        <strong>Post comment</strong>
+        <!-- Textarea Input -->
+        <textarea name="comment" rows="5" cols="30" class="form-control" style="resize: none;" formControlName="comment"></textarea>
+        <!-- Validation -->
+        <div [ngClass]="{'has-success': !commentForm.controls.comment.errors && commentForm.controls.comment.dirty, 'has-error': commentForm.controls.comment.dirty && commentForm.controls.comment.errors}">
+          <ul class="help-block">
+            <li *ngIf="commentForm.controls.comment.errors?.required && commentForm.controls.comment.dirty">This field is required.</li>
+            <li *ngIf="(commentForm.controls.comment.errors?.maxlength && commentForm.controls.comment.dirty) ||(commentForm.controls.comment.errors?.minlength && commentForm.controls.comment.dirty)">Comment must be at least 1 character but no more than 200.</li>
+          </ul>
+        </div>
+        <!-- Post Button -->
+        <button [disabled]="!commentForm.valid || processing" type="submit" name="button" class="btn btn-sm btn-info" (click)="postComment()">Post</button>
+        <!-- Cancel Button -->
+        <button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger" (click)="cancelSubmission(fanfic._id)">Cancel</button>
+      </form>
+      <!-- Form: Comment Form End -->
+      <br />
+
+      <div *ngIf="isAuthorized()">
+        <strong>Comments:</strong>
+        <div>
+          <li *ngFor="let comment of fanfic.comments" class="list-group-item">
+            <strong>{{ comment.commentator }}:</strong> {{ comment.comment }}
+          </li>
+        </div>
+      </div>
     </div>
   </div>
 

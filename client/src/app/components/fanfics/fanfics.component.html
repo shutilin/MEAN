@@ -81,7 +81,7 @@ Body Input
 		<div class="panel-footer">
 			<strong>Posted by: </strong>{{ fanfic.createdBy }}
 			<br />
-			<strong>Date: </strong>{{ fanfic.createdAt }}
+			<strong>Date: </strong>{{ fanfic.createdAt | date:'dd MMM, yyyy' }}
 			<br />
 			
 			<a [routerLink]="['/edit-fanfic/', fanfic._id]" *ngIf="username === fanfic.createdBy"><button type="button" name="button" class="btn btn-sm btn-info">Edit</button></a>
@@ -112,7 +112,7 @@ Body Input
           <!-- Form: Comment Form Start -->
           <form [formGroup]="commentForm">
             <!-- Textarea Input -->
-            <textarea name="comment" rows="10" cols="30" class="form-control" formControlName="comment"></textarea>
+            <textarea name="comment" rows="5" cols="30" style="resize: none;" class="form-control" formControlName="comment"></textarea>
             <!-- Validation -->
             <div [ngClass]="{'has-success': !commentForm.controls.comment.errors && commentForm.controls.comment.dirty, 'has-error': commentForm.controls.comment.dirty && commentForm.controls.comment.errors}">
               <ul class="help-block">
