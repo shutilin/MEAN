@@ -2,6 +2,17 @@ const User = require('../models/user'); // Import User Model Schema
 const Fanfic = require('../models/fanfic'); // Import Fanfic Model Schema
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
 const config = require('../config/database'); // Import database configuration
+const cloudinary = require('cloudinary');
+
+cloudinary.config({ 
+  cloud_name: 'itrcloud', 
+  api_key: '684383551689915', 
+  api_secret: 'jmZ0duyuMlxHhwrqpg7_9qwAFQM' 
+});
+
+/*cloudinary.uploader.upload("https://cloudinary-res.cloudinary.com/image/upload/c_limit,w_770/case_study_mindbodygreen.jpg", function(result) { 
+  console.log(result) 
+});*/
 
 function checkToken(req, res, next){
       const token = req.headers['authorization']; // Create token found in headers
@@ -40,6 +51,9 @@ module.exports = (router) => {
           if (!req.body.createdBy) {
             res.json({ success: false, message: 'Fanfic creator is required.' }); // Return error
           } else {
+            cloudinary.uploader.upload(req.body.picture, (result) => {
+              console.log(result);
+            })
             const fanfic = new Fanfic({
               title: req.body.title,
               description: req.body.description, // Title field

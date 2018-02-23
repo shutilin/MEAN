@@ -3,7 +3,10 @@ import { AuthService } from '../../services/auth.service';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FanficsService } from '../../services/fanfics.service';
 import { TagInputModule } from 'ngx-chips';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ImageUploadModule } from "angular2-image-upload";
+import { UploadEvent, UploadFile } from 'ngx-file-drop';
+
 
 @Component({
   selector: 'app-profile',
@@ -23,6 +26,7 @@ export class ProfileComponent implements OnInit {
   processing = false;
   items = [];
   genre;
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -98,7 +102,8 @@ export class ProfileComponent implements OnInit {
       body: this.form.get('body').value, 
       createdBy: this.username,
       tags: this.items,
-      genre: this.genre 
+      genre: this.genre,
+      picture: this.files 
     }
 
     this.fanficsService.newFanfic(fanfic).subscribe(data => {
@@ -122,6 +127,26 @@ export class ProfileComponent implements OnInit {
         }, 2000);
       }
     });
+  }
+
+  public files: UploadFile[] = [];
+ 
+  public dropped(event: UploadEvent) {
+    this.files = event.files;
+    for (const file of event.files) {
+      file.fileEntry.file(info => {
+        console.log(info);
+      });
+    }
+    console.log(this.files);
+  }
+ 
+  public fileOver(event){
+    console.log(event);
+  }
+ 
+  public fileLeave(event){
+    console.log(event);
   }
 
   ngOnInit() {

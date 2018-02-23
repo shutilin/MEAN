@@ -20,9 +20,12 @@ import { EditFanficComponent } from './components/fanfics/edit-fanfic/edit-fanfi
 import { DeleteFanficComponent } from './components/fanfics/delete-fanfic/delete-fanfic.component';
 import { ViewFanficComponent } from './components/fanfics/view-fanfic/view-fanfic.component';
 import { TagInputModule } from 'ngx-chips';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { CloudinaryModule } from '@cloudinary/angular-5.x';
-import * as  Cloudinary from 'cloudinary-core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ImageUploadModule } from "angular2-image-upload";
+import { FileDropModule } from 'ngx-file-drop';
+/*import { CloudinaryModule } from '@cloudinary/angular-5.x';
+import * as  Cloudinary from 'cloudinary-core';*/
+
 
 @NgModule({
   declarations: [
@@ -36,7 +39,8 @@ import * as  Cloudinary from 'cloudinary-core';
     FanficsComponent,
     EditFanficComponent,
     DeleteFanficComponent,
-    ViewFanficComponent
+    ViewFanficComponent,
+    //FileUploadModule
   ],
   imports: [
     BrowserModule,
@@ -44,10 +48,10 @@ import * as  Cloudinary from 'cloudinary-core';
     HttpModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpModule,
     TagInputModule,
     BrowserAnimationsModule,
-    CloudinaryModule.forRoot(Cloudinary, { cloud_name: 'itrcloud'})
+    ImageUploadModule.forRoot(),
+    FileDropModule
   ],
   providers: [AuthService, AuthGuard, NotAuthGuard, FanficsService],
   bootstrap: [AppComponent]
