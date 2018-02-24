@@ -159,17 +159,21 @@ export class ProfileComponent implements OnInit {
     myReader.readAsDataURL(file);
   }
 
-  public files: UploadFile[] = [];
+  /*public files: UploadFile[] = [];
  
   public dropped(event: UploadEvent) {
     this.files = event.files;
     //let reader:FileReader = new FileReader();
-    for (const file of event.files) {
-      file.fileEntry.file(info => {
-        //console.log(info);
+    for (const fileItem of event.files) {
+      fileItem.fileEntry.file(info => {
+        var myReader:FileReader = new FileReader();
+        this.pic = myReader.result;
+        console.log(this.pic);
+        myReader.readAsDataURL(fileItem);
       });
+      //this.pic = fileI.fileEntry.toUrl();
     }
-    console.log(this.files);
+    console.log(this.pic);
   }
  
   public fileOver(event){
@@ -178,7 +182,7 @@ export class ProfileComponent implements OnInit {
  
   public fileLeave(event){
     console.log(event);
-  }
+  }*/
 
   ngOnInit() {
     // Once component loads, get user's data to display on profile

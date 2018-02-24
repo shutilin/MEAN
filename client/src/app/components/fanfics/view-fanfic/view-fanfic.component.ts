@@ -94,7 +94,8 @@ export class ViewFanficComponent implements OnInit {
           createdBy: data.fanfic.createdBy,
           createdAt: data.fanfic.createdAt,
           comments: data.fanfic.comments,
-          genre: data.fanfic.genre
+          genre: data.fanfic.genre,
+          pictureURL: data.fanfic.pictureURL
         }
         this.foundFanfic = true;
       }
