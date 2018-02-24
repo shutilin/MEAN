@@ -3,6 +3,10 @@ const Fanfic = require('../models/fanfic'); // Import Fanfic Model Schema
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
 const config = require('../config/database'); // Import database configuration
 const cloudinary = require('cloudinary');
+const fs = require('fs');
+//const encode = require('nodejs-base64-encode');
+const Datauri = require('datauri');
+const datauri = new Datauri();
 
 cloudinary.config({ 
   cloud_name: 'itrcloud', 
@@ -51,16 +55,16 @@ module.exports = (router) => {
           if (!req.body.createdBy) {
             res.json({ success: false, message: 'Fanfic creator is required.' }); // Return error
           } else {
+            var pictureURL;
             cloudinary.uploader.upload(req.body.picture, (result) => {
-              console.log(result);
-            })
-            const fanfic = new Fanfic({
+                   const fanfic = new Fanfic({
               title: req.body.title,
               description: req.body.description, // Title field
               body: req.body.body, // Body field
               createdBy: req.body.createdBy,
               tags: req.body.tags,
-              genre: req.body.genre // CreatedBy field
+              genre: req.body.genre, // CreatedBy field
+              pictureURL: result.url
             });
             // Save Fanfic into database
             fanfic.save((err) => {
@@ -90,6 +94,44 @@ module.exports = (router) => {
                 res.json({ success: true, message: 'Fanfic saved!' }); // Return success message
               }
             });
+            })
+       /*     const fanfic = new Fanfic({
+              title: req.body.title,
+              description: req.body.description, // Title field
+              body: req.body.body, // Body field
+              createdBy: req.body.createdBy,
+              tags: req.body.tags,
+              genre: req.body.genre, // CreatedBy field
+              pictureURL: 'pictureURL'
+            });
+            // Save Fanfic into database
+            fanfic.save((err) => {
+              // Check if error
+              if (err) {
+                // Check if error is a validation error
+                if (err.errors) {
+                  // Check if validation error is in the title field
+                  if (err.errors.title) {
+                    res.json({ success: false, message: err.errors.title.message }); // Return error message
+                  } else {
+                    if (err.errors.description) {
+                      res.json({ success: false, message: err.errors.description.message });
+                    } else {
+                    // Check if validation error is in the body field
+                      if (err.errors.body) {
+                        res.json({ success: false, message: err.errors.body.message }); // Return error message
+                      } else {
+                        res.json({ success: false, message: err }); // Return general error message
+                      }
+                    }
+                  }
+                } else {
+                  res.json({ success: false, message: err }); // Return general error message
+                }
+              } else {
+                res.json({ success: true, message: 'Fanfic saved!' }); // Return success message
+              }
+            });*/
           }
         }
     }

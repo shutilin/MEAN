@@ -26,7 +26,9 @@ export class ProfileComponent implements OnInit {
   processing = false;
   items = [];
   genre;
-
+  pictureURI;
+  image;
+  pic;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -103,7 +105,7 @@ export class ProfileComponent implements OnInit {
       createdBy: this.username,
       tags: this.items,
       genre: this.genre,
-      picture: this.files 
+      picture: this.pic 
     }
 
     this.fanficsService.newFanfic(fanfic).subscribe(data => {
@@ -129,13 +131,42 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+ /*  getBase64(file) {
+     var reader = new FileReader();
+     reader.readAsDataURL(file);
+     reader.onload = function () {
+       console.log(reader.result);
+     };
+     reader.onerror = function (error) {
+       console.log('Error: ', error);
+     };
+  }*/
+
+  changeListener($event) : void {
+    this.readThis($event.target);
+  }
+
+  readThis(inputValue: any): void {
+    var preview = document.querySelector('img');
+    var file:File = inputValue.files[0];
+    var myReader:FileReader = new FileReader();
+
+    myReader.onloadend = (e) => {
+      preview.src = myReader.result;
+      this.pic = myReader.result;
+      console.log(this.pic);
+    }
+    myReader.readAsDataURL(file);
+  }
+
   public files: UploadFile[] = [];
  
   public dropped(event: UploadEvent) {
     this.files = event.files;
+    //let reader:FileReader = new FileReader();
     for (const file of event.files) {
       file.fileEntry.file(info => {
-        console.log(info);
+        //console.log(info);
       });
     }
     console.log(this.files);

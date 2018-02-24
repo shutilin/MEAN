@@ -21,8 +21,8 @@ mongoose.connect(config.uri, (err) => {
 app.use(cors({
 	origin: 'http://localhost:4200'
 }));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
+app.use(bodyParser.json({limit: '50mb'}));
 app.use(express.static(__dirname + '/client/dist/'));
 app.use('/authentication', authentication);
 app.use('/fanfics', fanfics);

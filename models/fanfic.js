@@ -116,7 +116,7 @@ const fanficSchema = new Schema({
   title: { type: String, required: true, validate: titleValidators },
   description: {type: String, required: true, validate: descriptionValidators },
   genre: { type: String, required: true },
-  pictureUrl: { type: String },
+  pictureURL: { type: String },
   body: { type: String, required: true, validate: bodyValidators },
   createdBy: { type: String },
   createdAt: { type: Date, default: Date.now() },
