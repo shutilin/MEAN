@@ -36,6 +36,12 @@ export class FanficsService {
     return this.http.get(this.domain + 'fanfics/allFanfics', this.options).map(res => res.json());
   }
 
+  getUserFanfics(username) {
+     this.createAuthenticationHeaders();
+     console.log('user fanfics' + username);
+    return this.http.get(this.domain + 'fanfics/userFanfics/' + username, this.options).map(res => res.json());
+  }
+
   getSingleFanfic(id) {
     this.createAuthenticationHeaders();
     return this.http.get(this.domain +'fanfics/singleFanfic/' + id, this.options).map(res => res.json());

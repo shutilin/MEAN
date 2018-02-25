@@ -1,4 +1,3 @@
-
 const User = require('../models/user'); 
 const jwt = require('jsonwebtoken');
 const config = require('../config/database');
@@ -80,6 +79,8 @@ module.exports = (router) => {
       }
     }
   });
+
+
 
    router.get('/checkEmail/:email', (req, res) => {
     // Check if email was provided in paramaters

@@ -17,7 +17,7 @@ export class ProfileComponent implements OnInit {
 
   username = '';
   email = '';
-
+  fanficPosts;
   messageClass;
   message;
   newFanfic = false;
@@ -91,7 +91,7 @@ export class ProfileComponent implements OnInit {
 
 
   goBack() {
-    window.location.reload();
+    this.newFanfic = false;
   }
 
   onFanficSubmit() {
@@ -120,6 +120,7 @@ export class ProfileComponent implements OnInit {
         this.message = data.message; // Return success message
         // Clear form data after two seconds
         //this.getAllFanfics();
+        this.getUserFanfics(this.username);
         setTimeout(() => {
           this.newFanfic = false; // Hide form
           this.processing = false; // Enable submit button
@@ -150,7 +151,7 @@ export class ProfileComponent implements OnInit {
     var preview = document.querySelector('img');
     var file:File = inputValue.files[0];
     var myReader:FileReader = new FileReader();
-
+    console.log(file);
     myReader.onloadend = (e) => {
       preview.src = myReader.result;
       this.pic = myReader.result;
@@ -159,21 +160,23 @@ export class ProfileComponent implements OnInit {
     myReader.readAsDataURL(file);
   }
 
-  /*public files: UploadFile[] = [];
+ 
+  public files: UploadFile[] = [];
  
   public dropped(event: UploadEvent) {
     this.files = event.files;
-    //let reader:FileReader = new FileReader();
-    for (const fileItem of event.files) {
-      fileItem.fileEntry.file(info => {
-        var myReader:FileReader = new FileReader();
-        this.pic = myReader.result;
-        console.log(this.pic);
-        myReader.readAsDataURL(fileItem);
-      });
-      //this.pic = fileI.fileEntry.toUrl();
+    for (const file of event.files) {
+    var myReader:FileReader = new FileReader();
+    // myReader.onloadend = (e) => {
+    //   //preview.src = myReader.result;
+    //   this.pic = myReader.result;
+    //   console.log(this.pic);
+    // }
+    //myReader.readAsDataURL(file.);
+      /*file.fileEntry.file(info => {
+        console.log(info);
+      });*/
     }
-    console.log(this.pic);
   }
  
   public fileOver(event){
@@ -182,13 +185,20 @@ export class ProfileComponent implements OnInit {
  
   public fileLeave(event){
     console.log(event);
-  }*/
+  }
+
+  getUserFanfics(username) {
+    this.fanficsService.getUserFanfics(username).subscribe(data => {
+      this.fanficPosts = data.fanfics;
+    })
+  }
 
   ngOnInit() {
     // Once component loads, get user's data to display on profile
     this.authService.getProfile().subscribe(profile => {
       this.username = profile.user.username; // Set username
-      this.email = profile.user.email; // Set e-mail
+      this.email = profile.user.email;
+      this.getUserFanfics(this.username); // Set e-mail
     });
   }
 

@@ -57,15 +57,15 @@ module.exports = (router) => {
           } else {
             var pictureURL;
             cloudinary.uploader.upload(req.body.picture, (result) => {
-                   const fanfic = new Fanfic({
-              title: req.body.title,
-              description: req.body.description, // Title field
-              body: req.body.body, // Body field
-              createdBy: req.body.createdBy,
-              tags: req.body.tags,
-              genre: req.body.genre, // CreatedBy field
-              pictureURL: result.url
-            });
+             const fanfic = new Fanfic({
+                title: req.body.title,
+                description: req.body.description, // Title field
+                body: req.body.body, // Body field
+                createdBy: req.body.createdBy,
+                tags: req.body.tags,
+                genre: req.body.genre, // CreatedBy field
+                pictureURL: result.url
+              });
             // Save Fanfic into database
             fanfic.save((err) => {
               // Check if error
@@ -140,6 +140,20 @@ module.exports = (router) => {
 
   router.get('/allFanfics', (req, res) => {
     Fanfic.find({}, (err, fanfics) => {
+      if (err) {
+        res.json({ success: false, message: err });
+      } else {
+        if (!fanfics) {
+          res.json({ success: false, message: "No fanfics found"});
+        } else{
+          res.json({ success: true, fanfics: fanfics });
+        }
+      }
+    }).sort({ '_id' : -1 });
+  })
+
+  router.get('/userFanfics/:username', (req, res) => {
+    Fanfic.find({ createdBy: req.params.username}, (err, fanfics) => {
       if (err) {
         res.json({ success: false, message: err });
       } else {

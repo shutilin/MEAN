@@ -60,7 +60,7 @@ export class ViewFanficComponent implements OnInit {
 
   postComment() {
    this.disableCommentForm(); // Disable form while saving comment to database
-    this.processing = true; // Lock buttons while saving comment to database
+    //this.processing = true; // Lock buttons while saving comment to database
     const comment = this.commentForm.get('comment').value; 
     const id = this.currentUrl.id;// Get the comment value to pass to service function
     // Function to save the comment to the database

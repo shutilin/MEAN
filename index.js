@@ -8,7 +8,8 @@ const authentication = require('./routes/authentication')(router);
 const fanfics = require('./routes/fanfics')(router);
 const bodyParser = require('body-parser');
 const cors = require('cors');
-// Database Connection
+
+
 mongoose.Promise = global.Promise;
 mongoose.connect(config.uri, (err) => {
   if (err) {
