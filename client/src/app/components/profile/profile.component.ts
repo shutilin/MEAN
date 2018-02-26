@@ -5,7 +5,6 @@ import { FanficsService } from '../../services/fanfics.service';
 import { TagInputModule } from 'ngx-chips';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ImageUploadModule } from "angular2-image-upload";
-import { UploadEvent, UploadFile } from 'ngx-file-drop';
 
 
 @Component({
@@ -63,25 +62,25 @@ export class ProfileComponent implements OnInit {
 
   enableFormNewFanficForm() {
     this.form.get('title').enable(); 
-    this.form.get('description').enable();// Enable title field
-    this.form.get('body').enable(); // Enable body field
+    this.form.get('description').enable();
+    this.form.get('body').enable(); 
   }
 
-  // Disable new blog form
+  
   disableFormNewFanficForm() {
-    this.form.get('title').disable(); // Disable title field
+    this.form.get('title').disable(); 
     this.form.get('description').disable();
-    this.form.get('body').disable(); // Disable body field
+    this.form.get('body').disable(); 
   }
 
 
   alphaNumericValidation(controls) {
-    const regExp = new RegExp(/^[a-zA-Z0-9 ]+$/); // Regular expression to perform test
-    // Check if test returns false or true
+    const regExp = new RegExp(/^[a-zA-Z0-9 ]+$/); 
+    
     if (regExp.test(controls.value)) {
-      return null; // Return valid
+      return null; 
     } else {
-      return { 'alphaNumericValidation': true }; // Return error in validation
+      return { 'alphaNumericValidation': true }; 
     }
   }
 
@@ -109,39 +108,28 @@ export class ProfileComponent implements OnInit {
     }
 
     this.fanficsService.newFanfic(fanfic).subscribe(data => {
-      // Check if blog was saved to database or not
+      
       if (!data.success) {
-        this.messageClass = 'alert alert-danger'; // Return error class
-        this.message = data.message; // Return error message
-        this.processing = false; // Enable submit button
-        this.enableFormNewFanficForm(); // Enable form
+        this.messageClass = 'alert alert-danger'; 
+        this.message = data.message; 
+        this.processing = false; 
+        this.enableFormNewFanficForm(); 
       } else {
-        this.messageClass = 'alert alert-success'; // Return success class
-        this.message = data.message; // Return success message
-        // Clear form data after two seconds
-        //this.getAllFanfics();
+        this.messageClass = 'alert alert-success'; 
+        this.message = data.message; 
+        
+        
         this.getUserFanfics(this.username);
         setTimeout(() => {
-          this.newFanfic = false; // Hide form
-          this.processing = false; // Enable submit button
-          this.message = false; // Erase error/success message
-          this.form.reset(); // Reset all form fields
-          this.enableFormNewFanficForm(); // Enable the form fields
+          this.newFanfic = false; 
+          this.processing = false; 
+          this.message = false; 
+          this.form.reset(); 
+          this.enableFormNewFanficForm(); 
         }, 2000);
       }
     });
   }
-
- /*  getBase64(file) {
-     var reader = new FileReader();
-     reader.readAsDataURL(file);
-     reader.onload = function () {
-       console.log(reader.result);
-     };
-     reader.onerror = function (error) {
-       console.log('Error: ', error);
-     };
-  }*/
 
   changeListener($event) : void {
     this.readThis($event.target);
@@ -160,33 +148,6 @@ export class ProfileComponent implements OnInit {
     myReader.readAsDataURL(file);
   }
 
- 
-  public files: UploadFile[] = [];
- 
-  public dropped(event: UploadEvent) {
-    this.files = event.files;
-    for (const file of event.files) {
-    var myReader:FileReader = new FileReader();
-    // myReader.onloadend = (e) => {
-    //   //preview.src = myReader.result;
-    //   this.pic = myReader.result;
-    //   console.log(this.pic);
-    // }
-    //myReader.readAsDataURL(file.);
-      /*file.fileEntry.file(info => {
-        console.log(info);
-      });*/
-    }
-  }
- 
-  public fileOver(event){
-    console.log(event);
-  }
- 
-  public fileLeave(event){
-    console.log(event);
-  }
-
   getUserFanfics(username) {
     this.fanficsService.getUserFanfics(username).subscribe(data => {
       this.fanficPosts = data.fanfics;
@@ -194,11 +155,11 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Once component loads, get user's data to display on profile
+    
     this.authService.getProfile().subscribe(profile => {
-      this.username = profile.user.username; // Set username
+      this.username = profile.user.username; 
       this.email = profile.user.email;
-      this.getUserFanfics(this.username); // Set e-mail
+      this.getUserFanfics(this.username); 
     });
   }
 

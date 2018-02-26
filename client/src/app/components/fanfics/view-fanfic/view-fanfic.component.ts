@@ -51,33 +51,24 @@ export class ViewFanficComponent implements OnInit {
   }
 
   enableCommentForm() {
-    this.commentForm.get('comment').enable(); // Enable comment field
+    this.commentForm.get('comment').enable(); 
   }
 
   disableCommentForm() {
-    this.commentForm.get('comment').disable(); // Disable comment field
+    this.commentForm.get('comment').disable(); 
   }
 
   postComment() {
-   this.disableCommentForm(); // Disable form while saving comment to database
-    //this.processing = true; // Lock buttons while saving comment to database
+   this.disableCommentForm(); 
+    
     const comment = this.commentForm.get('comment').value; 
-    const id = this.currentUrl.id;// Get the comment value to pass to service function
-    // Function to save the comment to the database
+    const id = this.currentUrl.id;
+    
     this.fanficsService.postComment(id, comment).subscribe( data=> {
       this.getCurrentFanfic(id);
       this.enableCommentForm();
       this.commentForm.reset();
     });
-    /*this.fanficsService.postComment(id, comment).subscribe(data => {
-      //this.getAllFanfics(); // Refresh all blogs to reflect the new comment
-      const index = this.newComment.indexOf(id); // Get the index of the blog id to remove from array
-      this.newComment.splice(index, 1); // Remove id from the array
-      this.enableCommentForm(); // Re-enable the form
-      //this.commentForm.reset(); // Reset the comment form
-      this.processing = false; // Unlock buttons on comment form
-      //if (this.enabledComments.indexOf(id) < 0) this.expand(id); // Expand comments for user on comment submission
-    });*/
   }
 
 

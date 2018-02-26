@@ -13,21 +13,21 @@ export class FanficsService {
     private http: Http
   ) { }
 
-  // Function to create headers, add token, to be used in HTTP requests
+  
   createAuthenticationHeaders() {
-    this.authService.loadToken(); // Get token so it can be attached to headers
-    // Headers configuration options
+    this.authService.loadToken(); 
+    
     this.options = new RequestOptions({
       headers: new Headers({
-        'Content-Type': 'application/json', // Format set to JSON
-        'authorization': this.authService.authToken // Attach token
+        'Content-Type': 'application/json', 
+        'authorization': this.authService.authToken 
       })
     });
   }
 
-  // Function to create a new blog post
+  
   newFanfic(fanfic) {
-    this.createAuthenticationHeaders(); // Create headers
+    this.createAuthenticationHeaders(); 
     return this.http.post(this.domain + 'fanfics/newFanfic', fanfic, this.options).map(res => res.json());
   }
 
@@ -48,12 +48,12 @@ export class FanficsService {
   }
 
   editFanfic(fanfic) {
-    this.createAuthenticationHeaders(); // Create headers
+    this.createAuthenticationHeaders(); 
     return this.http.put(this.domain + 'fanfics/updateFanfic/', fanfic, this.options).map(res => res.json());
   }
 
   deleteFanfic(id) {
-    this.createAuthenticationHeaders(); // Create headers
+    this.createAuthenticationHeaders(); 
     return this.http.delete(this.domain + 'fanfics/deleteFanfic/' + id, this.options).map(res => res.json());
   }
 

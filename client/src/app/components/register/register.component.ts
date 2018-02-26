@@ -24,36 +24,36 @@ export class RegisterComponent implements OnInit {
     private authService: AuthService,
     private router: Router
   ) {
-    this.createForm(); // Create Angular 2 Form when component loads
+    this.createForm(); 
   }
 
-  // Function to create registration form
+  
   createForm() {
     this.form = this.formBuilder.group({
-      // Email Input
+      
       email: ['', Validators.compose([
-        Validators.required, // Field is required
-        Validators.minLength(5), // Minimum length is 5 characters
-        Validators.maxLength(30), // Maximum length is 30 characters
-        this.validateEmail // Custom validation
+        Validators.required, 
+        Validators.minLength(5), 
+        Validators.maxLength(30), 
+        this.validateEmail 
       ])],
-      // Username Input
+      
       username: ['', Validators.compose([
-        Validators.required, // Field is required
-        Validators.minLength(3), // Minimum length is 3 characters
-        Validators.maxLength(15), // Maximum length is 15 characters
-        this.validateUsername // Custom validation
+        Validators.required, 
+        Validators.minLength(3), 
+        Validators.maxLength(15), 
+        this.validateUsername 
       ])],
-      // Password Input
+      
       password: ['', Validators.compose([
-        Validators.required, // Field is required
-        Validators.minLength(8), // Minimum length is 8 characters
-        Validators.maxLength(35), // Maximum length is 35 characters
-        this.validatePassword // Custom validation
+        Validators.required, 
+        Validators.minLength(8), 
+        Validators.maxLength(35), 
+        this.validatePassword 
       ])],
-      // Confirm Password Input
-      confirm: ['', Validators.required] // Field is required
-    }, { validator: this.matchingPasswords('password', 'confirm') }); // Add custom validator to form for matching passwords
+      
+      confirm: ['', Validators.required] 
+    }, { validator: this.matchingPasswords('password', 'confirm') }); 
   }
 
   disableForm() {
@@ -87,35 +87,35 @@ export class RegisterComponent implements OnInit {
     if (regExp.test(controls.value)) {
       return null; 
     } else {
-      return { 'validateUsername': true } // Return as invalid username
+      return { 'validateUsername': true } 
     }
   }
 
-  // Function to validate password
+  
   validatePassword(controls) {
-    // Create a regular expression
+    
     const regExp = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,35}$/);
-    // Test password against regular expression
+    
     if (regExp.test(controls.value)) {
-      return null; // Return as valid password
+      return null; 
     } else {
-      return { 'validatePassword': true } // Return as invalid password
+      return { 'validatePassword': true } 
     }
   }
 
-  // Funciton to ensure passwords match
+  
   matchingPasswords(password, confirm) {
     return (group: FormGroup) => {
-      // Check if both fields are the same
+      
       if (group.controls[password].value === group.controls[confirm].value) {
-        return null; // Return as a match
+        return null; 
       } else {
-        return { 'matchingPasswords': true } // Return as error: do not match
+        return { 'matchingPasswords': true } 
       }
     }
   }
 
-  // Function to submit form
+  
   onRegisterSubmit() {
     this.processing = true;
     this.disableForm();
@@ -142,30 +142,30 @@ export class RegisterComponent implements OnInit {
   }
 
   checkEmail() {
-    // Function from authentication file to check if e-mail is taken
+    
     this.authService.checkEmail(this.form.get('email').value).subscribe(data => {
-      // Check if success true or false was returned from API
+      
       if (!data.success) {
-        this.emailValid = false; // Return email as invalid
-        this.emailMessage = data.message; // Return error message
+        this.emailValid = false; 
+        this.emailMessage = data.message; 
       } else {
-        this.emailValid = true; // Return email as valid
-        this.emailMessage = data.message; // Return success message
+        this.emailValid = true; 
+        this.emailMessage = data.message; 
       }
     });
   }
 
-  // Function to check if username is available
+  
   checkUsername() {
-    // Function from authentication file to check if username is taken
+    
     this.authService.checkUsername(this.form.get('username').value).subscribe(data => {
-      // Check if success true or success false was returned from API
+      
       if (!data.success) {
-        this.usernameValid = false; // Return username as invalid
-        this.usernameMessage = data.message; // Return error message
+        this.usernameValid = false; 
+        this.usernameMessage = data.message; 
       } else {
-        this.usernameValid = true; // Return username as valid
-        this.usernameMessage = data.message; // Return success message
+        this.usernameValid = true; 
+        this.usernameMessage = data.message; 
       }
     });
   }

@@ -6,68 +6,7 @@
   </div>
 </div> 
 
-<!-- <button type="button" name="button" class="btn btn-warning" *ngIf="!newFanfic" (click)="newFanficForm()">New Fanfic</button>
-<button [disabled]="loadingFanfics" type="button" name="button" class="btn btn-default" *ngIf="!newFanfic" (click)="reloadFanfics()">Reload</button>
-
-<br/>
-<br/>
-
-New Fanfic Form
-<form [formGroup]="form" name="fanficForm" (submit)="onFanficSubmit()" *ngIf="newFanfic">
-  Title Input
-  <div class="form-group">
-    <label for="title">Title</label>
-    <div [ngClass]="{'has-success': form.controls.title.valid, 'has-error': form.controls.title.dirty && form.controls.title.errors}">
-      <input type="text" name="title" class="form-control" placeholder="*fanfic Title" autocomplete="off" formControlName="title" />
-      <ul class="help-block">
-        <li *ngIf="form.controls.title.dirty && form.controls.title.errors?.required">This field is required.</li>
-        <li *ngIf="(form.controls.title.dirty && form.controls.title.errors?.minlength) || (form.controls.title.dirty && form.controls.title.errors?.maxlength)">Max length: 50, Min length: 5</li>
-        <li *ngIf="form.controls.title.dirty && form.controls.title.errors?.alphaNumericValidation">Must be a letter or number</li>
-      </ul>
-    </div>
-  </div>
-  Description Input
-  <div class="form-group">
-    <label for="description">Description</label>
-    <div [ngClass]="{'has-success': form.controls.description.valid, 'has-error': form.controls.description.dirty && form.controls.description.errors}">
-      <input type="text" name="description" class="form-control" placeholder="*fanfic Description" autocomplete="off" formControlName="description" />
-      <ul class="help-block">
-        <li *ngIf="form.controls.description.dirty && form.controls.description.errors?.required">This field is required.</li>
-        <li *ngIf="(form.controls.description.dirty && form.controls.description.errors?.minlength) || (form.controls.description.dirty && form.controls.description.errors?.maxlength)">Max length: 500, Min length: 20</li>
-      </ul>
-    </div>
-  </div>
-Body Input
-  <div class="form-group">
-    <label for="body">Body</label>
-    <div [ngClass]="{'has-success': form.controls.body.valid, 'has-error': form.controls.body.dirty && form.controls.body.errors}">
-      <textarea name="body" rows="8" cols="80" placeholder="*Body" class="form-control" formControlName="body"></textarea>
-      <ul class="help-block">
-        <li *ngIf="form.controls.body.dirty && form.controls.body.errors?.required">This field is required.</li>
-        <li *ngIf="(form.controls.body.dirty && form.controls.body.errors?.minlength) || (form.controls.body.dirty && form.controls.body.errors?.maxlength)">Max length: 10000, Min length: 5</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="form-froup">
-    <label for="tags">Tags</label>
-    <tag-input name="tags" formControlName="body" [(ngModel)]='items' theme='minimal'>
-      <tag-input-dropdown [showDropdownIfEmpty]="true"
-                          [autocompleteItems]="['iTem1', 'item2', 'item3']">
-      </tag-input-dropdown>
-    </tag-input>
-  </div>
-  <br>
- 
-
-  <button [disabled]="processing" type="button" name="button" (click)="goBack()" class="btn btn-warning">Go Back</button>
-  <button [disabled]="processing || !form.valid" type="submit" name="button" class="btn btn-success">Submit</button>
-
-</form>
- -->
-
-
-<div *ngIf="!newFanfic">
+<div>
 	<div class="panel panel-primary" *ngFor="let fanfic of fanficPosts">
 
 		<div class="panel-heading">
@@ -84,75 +23,15 @@ Body Input
 			<strong>Date: </strong>{{ fanfic.createdAt | date:'dd MMM, yyyy' }}
 			<br />
 			
-			<a [routerLink]="['/edit-fanfic/', fanfic._id]" *ngIf="username === fanfic.createdBy"><button type="button" name="button" class="btn btn-sm btn-info">Edit</button></a>
-			<!-- Delete Button -->
-			<a [routerLink]="['/delete-fanfic/', fanfic._id]" *ngIf="username === fanfic.createdBy"><button type="button" name="button" class="btn btn-sm btn-danger">Delete</button></a>
+<!-- 			<a [routerLink]="['/edit-fanfic/', fanfic._id]" *ngIf="username === fanfic.createdBy"><button type="button" name="button" class="btn btn-sm btn-info">Edit</button></a>
+Delete Button
+<a [routerLink]="['/delete-fanfic/', fanfic._id]" *ngIf="username === fanfic.createdBy"><button type="button" name="button" class="btn btn-sm btn-danger">Delete</button></a> -->
 
-			<!-- Likes Dropdown  -->
-			<div class="dropdown">
+		
 				<!-- Like Button -->
 				<button type="button" name="button" class="btn btn-sm btn-success" *ngIf="(username !== fanfic.createdBy) && (isAuthorized())" (click)="likeFanfic(fanfic._id)"><span class="glyphicon glyphicon-thumbs-up">&nbsp;</span>{{ fanfic.likes }}</button>
-						<!-- Dropdown Menu Items -->
-		        <!-- <div class="dropdown-content">
-		          <a href="#">gugui3z24</a>
-		          <a href="#">jinder</a>
-		          <a href="#">patel</a>
-		      </div> -->
-		  	</div> 
+					 
 		</div>	
-		 <!-- Post Comment Box: Start
-         <ul class="list-group" *ngIf="isAuthorized()">
-           <li class="list-group-item">
-             Post Comment Button
-             <button type="button" name="button" class="btn btn-sm btn-danger" (click)="draftComment(fanfic._id)" [disabled]="newComment.indexOf(fanfic._id) > -1">Post Comment</button>
-             <br />
-             <br />
-             <div *ngIf="newComment.indexOf(fanfic._id) > -1">
-     
-               Form: Comment Form Start
-               <form [formGroup]="commentForm">
-                 Textarea Input
-                 <textarea name="comment" rows="5" cols="30" style="resize: none;" class="form-control" formControlName="comment"></textarea>
-                 Validation
-                 <div [ngClass]="{'has-success': !commentForm.controls.comment.errors && commentForm.controls.comment.dirty, 'has-error': commentForm.controls.comment.dirty && commentForm.controls.comment.errors}">
-                   <ul class="help-block">
-                     <li *ngIf="commentForm.controls.comment.errors?.required && commentForm.controls.comment.dirty">This field is required.</li>
-                     <li *ngIf="(commentForm.controls.comment.errors?.maxlength && commentForm.controls.comment.dirty) ||(commentForm.controls.comment.errors?.minlength && commentForm.controls.comment.dirty)">Comment must be at least 1 character but no more than 200.</li>
-                   </ul>
-                 </div>
-                 Post Button
-                 <button [disabled]="!commentForm.valid || processing" type="submit" name="button" class="btn btn-sm btn-info" (click)="postComment(fanfic._id)">Post</button>
-                 Cancel Button
-                 <button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger" (click)="cancelSubmission(fanfic._id)">Cancel</button>
-               </form>
-               Form: Comment Form End
-     
-             </div>
-     
-             Show Comments
-             <li *ngIf="enabledComments.indexOf(fanfic._id) === -1 && fanfic.comments.length > 0" class="list-group-item">
-               <span (click)="expand(fanfic._id)">
-                 Show comments&nbsp;&nbsp;
-                 <div class="glyphicon glyphicon-comment"></div>
-               </span>
-             </li>
-     
-             Hide Comments
-             <li *ngIf="enabledComments.indexOf(fanfic._id) > -1" class="list-group-item">
-               <span (click)="collapse(fanfic._id)">
-                 Hide Comments&nbsp;&nbsp;
-                 <div class="glyphicon glyphicon-comment"></div>
-               </span>
-             </li>
-     
-             Comment
-             <div *ngIf="enabledComments.indexOf(fanfic._id) > -1">
-               <li *ngFor="let comment of fanfic.comments" class="list-group-item">
-                 <strong>{{ comment.commentator }}:</strong> {{ comment.comment }}
-               </li>
-             </div>
-         </ul>
-         Post Comment Box: End -->
 	</div>
 </div>
 

@@ -6,7 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './services/auth.service';
@@ -23,8 +22,6 @@ import { TagInputModule } from 'ngx-chips';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ImageUploadModule } from "angular2-image-upload";
 import { FileDropModule } from 'ngx-file-drop';
-/*import { CloudinaryModule } from '@cloudinary/angular-5.x';
-import * as  Cloudinary from 'cloudinary-core';*/
 
 
 @NgModule({
@@ -32,7 +29,6 @@ import * as  Cloudinary from 'cloudinary-core';*/
     AppComponent,
     NavbarComponent,
     HomeComponent,
-    DashboardComponent,
     RegisterComponent,
     LoginComponent,
     ProfileComponent,
@@ -40,7 +36,6 @@ import * as  Cloudinary from 'cloudinary-core';*/
     EditFanficComponent,
     DeleteFanficComponent,
     ViewFanficComponent,
-    //FileUploadModule
   ],
   imports: [
     BrowserModule,
