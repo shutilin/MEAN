@@ -5,9 +5,6 @@ const config = require('../config/database');
 const cloudinary = require('cloudinary');
 const fs = require('fs');
 
-const Datauri = require('datauri');
-const datauri = new Datauri();
-
 cloudinary.config({ 
   cloud_name: 'itrcloud', 
   api_key: '684383551689915', 
@@ -16,13 +13,10 @@ cloudinary.config({
 
 function checkToken(req, res, next){
       const token = req.headers['authorization']; 
-      
       if (!token) {
         res.json({ success: false, message: 'No token provided' }); 
-      } else {
-        
+      } else {  
         jwt.verify(token, config.secret, (err, decoded) => {
-          
           if (err) {
             res.json({ success: false, message: 'Token invalid: ' + err }); 
           } else {
@@ -51,7 +45,6 @@ module.exports = (router) => {
           if (!req.body.createdBy) {
             res.json({ success: false, message: 'Fanfic creator is required.' }); 
           } else {
-            var pictureURL;
             cloudinary.uploader.upload(req.body.picture, (result) => {
              const fanfic = new Fanfic({
                 title: req.body.title,
@@ -63,12 +56,9 @@ module.exports = (router) => {
                 pictureURL: result.url
               });
             
-            fanfic.save((err) => {
-              
-              if (err) {
-                
-                if (err.errors) {
-                  
+            fanfic.save((err) => {              
+              if (err) {           
+                if (err.errors) {             
                   if (err.errors.title) {
                     res.json({ success: false, message: err.errors.title.message }); 
                   } else {
@@ -324,7 +314,6 @@ module.exports = (router) => {
       }
     }
   });
-
 
   return router;
 };

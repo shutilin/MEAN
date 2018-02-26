@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { FanficsService } from '../../services/fanfics.service';
 import { TagInputModule } from 'ngx-chips';
@@ -12,14 +11,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
   styleUrls: ['./fanfics.component.css']
 })
 export class FanficsComponent implements OnInit {
-  
-  messageClass;
-  message;
+
   username;
   fanficPosts;
 
   constructor(
-  	private formBuilder: FormBuilder,
     private authService: AuthService,
     private fanficsService: FanficsService
   ) {

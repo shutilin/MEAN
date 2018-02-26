@@ -75,7 +75,7 @@ export class ProfileComponent implements OnInit {
 
 
   alphaNumericValidation(controls) {
-    const regExp = new RegExp(/^[a-zA-Z0-9 ]+$/); 
+    const regExp = new RegExp(/^[a-zA-Z0-9А-Яа-я ]+$/); 
     
     if (regExp.test(controls.value)) {
       return null; 

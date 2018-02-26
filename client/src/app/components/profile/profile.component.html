@@ -12,7 +12,6 @@
 </div> 
 
 <button type="button" name="button" class="btn btn-warning" *ngIf="!newFanfic" (click)="newFanficForm()">New Fanfic</button>
-<button [disabled]="loadingFanfics" type="button" name="button" class="btn btn-default" *ngIf="!newFanfic" (click)="reloadFanfics()">Reload</button>
 
 <br/>
 <br/>
@@ -76,9 +75,6 @@
   <div class="form-froup">
     <label for="tags">Tags</label>
     <tag-input name="tags" formControlName="tags" [(ngModel)]='items' theme='minimal'>
-      <tag-input-dropdown [showDropdownIfEmpty]="true"
-      [autocompleteItems]="['iTem1', 'item2', 'item3']">
-    </tag-input-dropdown>
   </tag-input>
 </div>
 <br>

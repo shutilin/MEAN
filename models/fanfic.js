@@ -21,7 +21,7 @@ let alphaNumericTitleChecker = (title) => {
     return false; 
   } else {
     
-    const regExp = new RegExp(/^[a-zA-Z0-9 ]+$/);
+    const regExp = new RegExp(/^[a-zA-Z0-9А-яа-я ]+$/);
     return regExp.test(title); 
   }
 };

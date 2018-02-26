@@ -1,11 +1,4 @@
 <h1 class="page-header">Fanfics</h1>
-
-<div class="row show-hide-message" *ngIf="message && newFanfic">
-  <div [ngClass]="messageClass">
-    {{ message }}
-  </div>
-</div> 
-
 <div>
 	<div class="panel panel-primary" *ngFor="let fanfic of fanficPosts">
 
@@ -14,6 +7,7 @@
 		</div>
 
 		<div class="panel-body">
+			<img [src]="fanfic.pictureURL">
 			{{ fanfic.description }}
 		</div>
 
@@ -22,14 +16,13 @@
 			<br />
 			<strong>Date: </strong>{{ fanfic.createdAt | date:'dd MMM, yyyy' }}
 			<br />
-			
-<!-- 			<a [routerLink]="['/edit-fanfic/', fanfic._id]" *ngIf="username === fanfic.createdBy"><button type="button" name="button" class="btn btn-sm btn-info">Edit</button></a>
-Delete Button
-<a [routerLink]="['/delete-fanfic/', fanfic._id]" *ngIf="username === fanfic.createdBy"><button type="button" name="button" class="btn btn-sm btn-danger">Delete</button></a> -->
+
+
 
 		
-				<!-- Like Button -->
-				<button type="button" name="button" class="btn btn-sm btn-success" *ngIf="(username !== fanfic.createdBy) && (isAuthorized())" (click)="likeFanfic(fanfic._id)"><span class="glyphicon glyphicon-thumbs-up">&nbsp;</span>{{ fanfic.likes }}</button>
+			<!-- Like Button -->
+			<button type="button" name="button" class="btn btn-sm btn-success" *ngIf="(username !== fanfic.createdBy) && (isAuthorized())" (click)="likeFanfic(fanfic._id)"><span class="glyphicon glyphicon-thumbs-up">&nbsp;</span>{{ fanfic.likes }}</button>
+
 					 
 		</div>	
 	</div>
